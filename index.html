@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurras Charnel – Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --gold:  #c9a84c;
+      --gold2: #e8d5a3;
+      --tr: all 0.35s cubic-bezier(.22,1,.36,1);
+    }
+    [data-theme="dark"] {
+      --bg:       #0a0a0f;
+      --bg2:      #12121a;
+      --bg3:      #1a1a28;
+      --card:     #16161f;
+      --bdr:      rgba(201,168,76,.13);
+      --bdr-h:    rgba(201,168,76,.55);
+      --txt:      #e8e8f0;
+      --muted:    #8888a0;
+      --inv:      #0a0a0f;
+      --shad:     0 20px 55px rgba(0,0,0,.6);
+      --nav-bg:   rgba(10,10,15,.85);
+    }
+    [data-theme="light"] {
+      --bg:       #f7f4ef;
+      --bg2:      #eeeae2;
+      --bg3:      #e5e0d6;
+      --card:     #ffffff;
+      --bdr:      rgba(0,0,0,.10);
+      --bdr-h:    rgba(201,168,76,.70);
+      --txt:      #1a1a28;
+      --muted:    #6a6a80;
+      --inv:      #ffffff;
+      --shad:     0 12px 35px rgba(0,0,0,.13);
+      --nav-bg:   rgba(247,244,239,.90);
+    }
+
+    /* ─── RESET ─── */
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Outfit',sans-serif;
+      background:var(--bg);
+      color:var(--txt);
+      overflow-x:hidden;
+      transition:background .4s,color .4s;
+    }
+    /* block ALL overflow globally */
+    * { word-wrap:break-word; overflow-wrap:break-word; min-width:0; }
+    img { display:block; max-width:100%; height:auto; }
+
+    /* ─── CURSOR (desktop only) ─── */
+    @media (pointer:fine) { body { cursor:none; } .cur-d,.cur-r { display:block; } }
+    .cur-d,.cur-r { display:none; position:fixed; pointer-events:none; z-index:9999; }
+    .cur-d { width:8px; height:8px; background:var(--gold); border-radius:50%; }
+    .cur-r { width:36px; height:36px; border:1.5px solid var(--gold); border-radius:50%; z-index:9998; opacity:.55; transition:width .25s,height .25s,opacity .25s; }
+    .cur-r.big { width:52px; height:52px; opacity:.2; }
+
+    /* ─── NAVBAR ─── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:500;
+      height:66px;
+      padding:0 clamp(14px,4vw,50px);
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+      background:var(--nav-bg);
+      border-bottom:1px solid var(--bdr);
+      transition:box-shadow .3s, background .4s;
+    }
+    nav.scrolled { box-shadow:0 4px 30px rgba(0,0,0,.3); }
+
+    .nav-logo {
+      font-family:'Cormorant Garant',serif; font-size:1.3rem; font-weight:700;
+      color:var(--gold); text-decoration:none; letter-spacing:.06em; flex-shrink:0;
+    }
+    .nav-links { display:flex; align-items:center; gap:clamp(12px,2.5vw,30px); list-style:none; }
+    .nav-links a {
+      font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--muted); text-decoration:none;
+      white-space:nowrap; transition:color .3s; position:relative;
+    }
+    .nav-links a::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:1px; background:var(--gold); transition:width .3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-links a:hover::after { width:100%; }
+
+    .nav-r { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+
+    .theme-btn {
+      width:38px; height:38px; border-radius:50%;
+      border:1px solid var(--bdr); background:var(--card);
+      color:var(--gold); font-size:.85rem; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:var(--tr); flex-shrink:0;
+    }
+    .theme-btn:hover { border-color:var(--gold); background:rgba(201,168,76,.12); }
+
+    .nav-cta {
+      font-family:'DM Mono',monospace; font-size:.66rem; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--gold); border:1px solid var(--gold);
+      padding:7px 15px; border-radius:2px; text-decoration:none;
+      white-space:nowrap; transition:var(--tr);
+    }
+    .nav-cta:hover { background:var(--gold); color:var(--inv); }
+
+    .hbg { display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+    .hbg span { display:block; width:22px; height:2px; background:var(--txt); border-radius:2px; transition:var(--tr); }
+    .hbg.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hbg.open span:nth-child(2) { opacity:0; }
+    .hbg.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+    .nav-drw {
+      display:none; position:fixed; top:66px; left:0; right:0;
+      background:var(--bg2); border-bottom:1px solid var(--bdr);
+      padding:18px clamp(14px,4vw,50px); flex-direction:column; gap:0; z-index:499;
+    }
+    .nav-drw.open { display:flex; }
+    .nav-drw a {
+      font-family:'DM Mono',monospace; font-size:.76rem; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--muted); text-decoration:none;
+      padding:12px 0; border-bottom:1px solid var(--bdr); transition:color .3s;
+    }
+    .nav-drw a:last-child { border-bottom:none; }
+    .nav-drw a:hover { color:var(--gold); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height:100svh;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:clamp(90px,12vh,140px) clamp(14px,5vw,60px) 60px;
+      position:relative; overflow:hidden; text-align:center;
+    }
+    .h-grid {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(201,168,76,.045) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(201,168,76,.045) 1px,transparent 1px);
+      background-size:55px 55px;
+      mask-image:radial-gradient(ellipse 80% 80% at center,black 30%,transparent 75%);
+      -webkit-mask-image:radial-gradient(ellipse 80% 80% at center,black 30%,transparent 75%);
+    }
+    .h-glow {
+      position:absolute; pointer-events:none;
+      width:min(700px,100vw); height:min(700px,100vw);
+      background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 70%);
+      top:50%; left:50%; transform:translate(-50%,-50%);
+    }
+    .h-eye {
+      font-family:'DM Mono',monospace; font-size:clamp(.58rem,1.5vw,.74rem);
+      letter-spacing:.22em; text-transform:uppercase; color:var(--gold);
+      margin-bottom:16px; opacity:0; animation:fup .8s .3s forwards;
+    }
+    .h-name {
+      font-family:'Cormorant Garant',serif;
+      font-size:clamp(3rem,10vw,8rem); font-weight:300; line-height:.93;
+      color:var(--txt); letter-spacing:-.02em;
+      opacity:0; animation:fup .8s .5s forwards;
+    }
+    .h-name span { color:var(--gold); font-style:italic; font-weight:700; }
+    .h-sub {
+      font-size:clamp(.8rem,2vw,.98rem); font-weight:300; color:var(--muted);
+      margin-top:22px; max-width:500px; line-height:1.65;
+      opacity:0; animation:fup .8s .7s forwards;
+    }
+    .h-div {
+      width:68px; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+      margin:26px auto; opacity:0; animation:fup .8s .9s forwards;
+    }
+    .h-tags {
+      display:flex; flex-wrap:wrap; gap:7px; justify-content:center; max-width:580px;
+      opacity:0; animation:fup .8s 1.1s forwards;
+    }
+    .h-tag {
+      font-family:'DM Mono',monospace; font-size:clamp(.56rem,1.4vw,.67rem);
+      letter-spacing:.1em; text-transform:uppercase;
+      color:var(--muted); border:1px solid var(--bdr);
+      padding:5px 11px; border-radius:2px; white-space:nowrap; transition:var(--tr);
+    }
+    .h-tag:hover { border-color:var(--gold); color:var(--gold); }
+    .h-scroll {
+      position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:7px;
+      opacity:0; animation:fup .8s 1.4s forwards;
+    }
+    .h-scroll span { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+    .sline { width:1px; height:42px; background:linear-gradient(var(--gold),transparent); animation:sln 2s ease-in-out infinite; }
+    @keyframes sln {
+      0%   { transform:scaleY(0); transform-origin:top; }
+      50%  { transform:scaleY(1); transform-origin:top; }
+      51%  { transform:scaleY(1); transform-origin:bottom; }
+      100% { transform:scaleY(0); transform-origin:bottom; }
+    }
+    @keyframes fup { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ─── SHARED ─── */
+    .s-lbl {
+      font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.22em;
+      text-transform:uppercase; color:var(--gold);
+      display:flex; align-items:center; gap:9px; margin-bottom:9px;
+    }
+    .s-lbl::before { content:''; display:block; width:26px; height:1px; background:var(--gold); flex-shrink:0; }
+    .s-ttl {
+      font-family:'Cormorant Garant',serif; font-size:clamp(1.9rem,5vw,3.4rem);
+      font-weight:300; line-height:1.06; margin-bottom:40px;
+    }
+    .s-ttl em { font-style:italic; color:var(--gold); font-weight:700; }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding:clamp(55px,9vh,115px) clamp(14px,5vw,80px);
+      background:var(--bg2);
+      display:grid; grid-template-columns:auto 1fr;
+      gap:clamp(28px,5vw,75px); align-items:center;
+    }
+    .a-wrap { position:relative; flex-shrink:0; width:fit-content; }
+    .a-wrap::before {
+      content:''; position:absolute;
+      top:-10px; left:-10px; right:10px; bottom:-10px;
+      border:1px solid rgba(201,168,76,.32); border-radius:4px; pointer-events:none;
+    }
+    .a-wrap img {
+      width:clamp(170px,21vw,290px); height:clamp(210px,27vw,360px);
+      object-fit:cover; border-radius:4px; position:relative; z-index:1;
+      filter:grayscale(15%) contrast(1.05); transition:filter .4s;
+    }
+    .a-wrap:hover img { filter:none; }
+    .a-badge {
+      position:absolute; bottom:22px; right:-32px;
+      background:var(--gold); color:#0a0a0f;
+      font-family:'Cormorant Garant',serif; font-size:.78rem; font-weight:700;
+      line-height:1.45; padding:11px 14px; border-radius:3px; text-align:center; z-index:2;
+      white-space:nowrap;
+    }
+    .a-name {
+      font-family:'Cormorant Garant',serif; font-size:clamp(1.4rem,3.5vw,2.1rem);
+      font-weight:700; color:var(--gold); margin-bottom:4px;
+    }
+    .a-role { font-size:clamp(.77rem,1.8vw,.88rem); color:var(--muted); font-weight:300; margin-bottom:20px; }
+    .a-bio  { font-size:clamp(.8rem,1.8vw,.9rem); line-height:1.85; color:var(--muted); font-weight:300; margin-bottom:28px; }
+    .a-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px; }
+    .stat { padding:14px 6px; border:1px solid var(--bdr); border-radius:4px; text-align:center; overflow:hidden; transition:var(--tr); }
+    .stat:hover { border-color:var(--gold); }
+    .stat-n { font-family:'Cormorant Garant',serif; font-size:clamp(1.6rem,4vw,2.3rem); font-weight:700; color:var(--gold); line-height:1; }
+    .stat-l { font-family:'DM Mono',monospace; font-size:.56rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
+    .btn-g {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:11px 24px; border:1px solid var(--gold);
+      color:var(--gold); font-family:'DM Mono',monospace; font-size:.66rem;
+      letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
+      border-radius:2px; overflow:hidden; position:relative; transition:color .3s;
+    }
+    .btn-g::before { content:''; position:absolute; inset:0; background:var(--gold); transform:translateX(-100%); transition:transform .3s; z-index:0; }
+    .btn-g > * { position:relative; z-index:1; }
+    .btn-g:hover { color:var(--inv); }
+    .btn-g:hover::before { transform:translateX(0); }
+
+    /* ─── CERTS ─── */
+    #certifications { padding:clamp(55px,9vh,115px) clamp(14px,5vw,80px); background:var(--bg); }
+    .certs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(210px,100%),1fr)); gap:14px; }
+    .cert-c {
+      background:var(--card); border:1px solid var(--bdr); border-radius:6px;
+      overflow:hidden; cursor:pointer; transition:var(--tr);
+    }
+    .cert-c:hover { border-color:var(--bdr-h); transform:translateY(-4px); box-shadow:var(--shad); }
+    .cert-img { height:135px; overflow:hidden; }
+    .cert-img img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+    .cert-c:hover .cert-img img { transform:scale(1.06); }
+    .cert-nfo { padding:11px 13px; }
+    .cert-pv { font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+    .cert-nm { font-family:'Cormorant Garant',serif; font-size:.93rem; font-weight:600; color:var(--txt); line-height:1.3; }
+
+    /* ─── SKILLS ─── */
+    #skills { padding:clamp(55px,9vh,115px) clamp(14px,5vw,80px); background:var(--bg2); }
+    .sk-hd { margin-bottom:44px; }
+    .sk-cols { display:grid; grid-template-columns:1fr 1fr; gap:clamp(18px,4vw,48px); }
+    .sk-col-ttl {
+      font-family:'Cormorant Garant',serif; font-size:clamp(1rem,2.5vw,1.35rem); font-weight:600;
+      color:var(--txt); margin-bottom:18px; padding-bottom:10px; border-bottom:1px solid var(--bdr);
+      display:flex; align-items:center; gap:9px;
+    }
+    .sk-col-ttl i { color:var(--gold); font-size:.95rem; }
+    .sk-list { display:flex; flex-direction:column; gap:9px; }
+    .sk-pill {
+      display:flex; align-items:center; gap:11px;
+      padding:11px 14px; background:var(--bg3); border:1px solid var(--bdr);
+      border-radius:4px; transition:var(--tr); overflow:hidden;
+    }
+    .sk-pill:hover { border-color:var(--gold); background:rgba(201,168,76,.06); transform:translateX(5px); }
+    .sk-ico {
+      width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+      background:rgba(201,168,76,.12); border-radius:3px; color:var(--gold); font-size:.82rem; flex-shrink:0;
+    }
+    .sk-nm { font-size:.81rem; font-weight:500; color:var(--txt); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ─── PROJECTS ─── */
+    #projects { padding:clamp(55px,9vh,115px) clamp(14px,5vw,80px); background:var(--bg); }
+    .pj-hd { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:12px; margin-bottom:52px; }
+    .pj-n { font-family:'Cormorant Garant',serif; font-size:clamp(3rem,8vw,5.5rem); font-weight:300; color:rgba(201,168,76,.07); line-height:1; letter-spacing:-.05em; }
+    .pj-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr)); gap:clamp(14px,2.5vw,26px); }
+
+    .pj-card { background:var(--card); border:1px solid var(--bdr); border-radius:8px; overflow:hidden; transition:var(--tr); display:flex; flex-direction:column; }
+    .pj-card:hover { border-color:var(--bdr-h); transform:translateY(-5px); box-shadow:var(--shad); }
+
+    .pj-car { position:relative; height:clamp(175px,22vw,225px); overflow:hidden; flex-shrink:0; }
+    .pj-slides { display:flex; height:100%; transition:transform .5s cubic-bezier(.25,.46,.45,.94); will-change:transform; }
+    .pj-sl { min-width:100%; height:100%; position:relative; flex-shrink:0; }
+    .pj-sl img { width:100%; height:100%; object-fit:cover; transition:transform .5s; cursor:zoom-in; }
+    .pj-card:hover .pj-sl img { transform:scale(1.04); }
+    .pj-ov { position:absolute; inset:0; background:linear-gradient(to top,rgba(10,10,15,.75) 0%,transparent 55%); pointer-events:none; }
+
+    .pj-arr {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:30px; height:30px; background:rgba(10,10,15,.65);
+      border:1px solid rgba(201,168,76,.45); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; z-index:5; color:var(--gold); font-size:.68rem;
+      opacity:0; transition:opacity .3s,background .3s;
+    }
+    .pj-arr.lft { left:9px; }
+    .pj-arr.rgt { right:9px; }
+    .pj-card:hover .pj-arr { opacity:1; }
+    .pj-arr:hover { background:rgba(201,168,76,.35); }
+
+    .pj-dots { position:absolute; bottom:9px; left:50%; transform:translateX(-50%); display:flex; gap:5px; z-index:5; }
+    .pj-dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,.4); cursor:pointer; transition:all .3s; }
+    .pj-dot.on { background:var(--gold); width:13px; border-radius:3px; }
+
+    .pj-cnt { position:absolute; top:9px; right:9px; font-family:'DM Mono',monospace; font-size:.58rem; color:rgba(255,255,255,.8); background:rgba(0,0,0,.5); padding:2px 7px; border-radius:20px; z-index:5; }
+
+    .wip { position:absolute; top:9px; left:9px; font-family:'DM Mono',monospace; font-size:.58rem; letter-spacing:.07em; text-transform:uppercase; background:rgba(201,168,76,.92); color:#0a0a0f; padding:3px 9px; border-radius:2px; z-index:6; font-weight:600; }
+
+    .pj-body { padding:clamp(13px,2.5vw,20px); display:flex; flex-direction:column; gap:7px; flex:1; }
+    .pj-tags { display:flex; flex-wrap:wrap; gap:4px; }
+    .pj-tag { font-family:'DM Mono',monospace; font-size:.57rem; letter-spacing:.06em; text-transform:uppercase; color:var(--gold); background:rgba(201,168,76,.09); padding:2px 7px; border-radius:2px; white-space:nowrap; }
+    .pj-ttl { font-family:'Cormorant Garant',serif; font-size:clamp(.95rem,2.5vw,1.2rem); font-weight:700; color:var(--txt); line-height:1.3; }
+    .pj-dsc { font-size:clamp(.77rem,1.8vw,.81rem); line-height:1.72; color:var(--muted); font-weight:300; flex:1; }
+
+    /* ─── CONTACT ─── */
+    #contact { padding:clamp(55px,9vh,115px) clamp(14px,5vw,80px); background:var(--bg2); display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(28px,5vw,75px); align-items:start; }
+    .c-mail { display:inline-block; font-family:'Cormorant Garant',serif; font-size:clamp(1rem,3vw,1.55rem); font-weight:300; color:var(--gold); text-decoration:none; border-bottom:1px solid rgba(201,168,76,.35); padding-bottom:2px; transition:var(--tr); word-break:break-all; }
+    .c-mail:hover { border-color:var(--gold); }
+    .c-txt { font-size:clamp(.8rem,1.8vw,.88rem); line-height:1.85; color:var(--muted); font-weight:300; margin:14px 0 32px; }
+    .soc-list { display:flex; flex-direction:column; gap:11px; }
+    .soc-a { display:flex; align-items:center; gap:13px; padding:13px 16px; background:var(--card); border:1px solid var(--bdr); border-radius:4px; text-decoration:none; color:var(--txt); transition:var(--tr); overflow:hidden; }
+    .soc-a:hover { border-color:var(--gold); background:rgba(201,168,76,.05); transform:translateX(6px); }
+    .soc-ico { width:34px; height:34px; display:flex; align-items:center; justify-content:center; background:rgba(201,168,76,.11); border-radius:4px; color:var(--gold); font-size:.92rem; flex-shrink:0; }
+    .soc-inf { flex:1; min-width:0; }
+    .soc-pl { font-family:'DM Mono',monospace; font-size:.57rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:1px; }
+    .soc-hd { font-size:.81rem; font-weight:500; color:var(--txt); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .soc-ar { color:var(--muted); font-size:.72rem; flex-shrink:0; }
+
+    /* ─── FOOTER ─── */
+    footer { background:var(--bg); border-top:1px solid var(--bdr); padding:clamp(22px,4vh,38px) clamp(14px,5vw,80px); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+    .ft-logo { font-family:'Cormorant Garant',serif; font-size:1.2rem; font-weight:700; color:var(--gold); }
+    .ft-txt { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.08em; color:var(--muted); text-align:center; }
+    .ft-lks { display:flex; gap:16px; flex-wrap:wrap; }
+    .ft-lks a { font-family:'DM Mono',monospace; font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .3s; }
+    .ft-lks a:hover { color:var(--gold); }
+
+    /* ─── LIGHTBOX ─── */
+    .lb { position:fixed; inset:0; background:rgba(0,0,0,.93); display:none; align-items:center; justify-content:center; z-index:1000; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); padding:16px; }
+    .lb.on { display:flex; }
+    .lb img { max-width:min(92vw,900px); max-height:88vh; border-radius:4px; border:1px solid rgba(201,168,76,.3); object-fit:contain; }
+    .lb-cls { position:absolute; top:22px; right:28px; font-family:'DM Mono',monospace; font-size:.66rem; letter-spacing:.1em; color:rgba(255,255,255,.45); cursor:pointer; transition:color .3s; }
+    .lb-cls:hover { color:var(--gold); }
+
+    /* ─── REVEAL ─── */
+    .rev { opacity:0; transform:translateY(32px); transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1); }
+    .rev.vis { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:900px) {
+      .nav-links,.nav-cta { display:none; }
+      .hbg { display:flex; }
+      #about { grid-template-columns:1fr; justify-items:center; text-align:center; }
+      .a-badge { right:-10px; }
+      .a-stats { grid-template-columns:repeat(3,1fr); }
+      .sk-cols { grid-template-columns:1fr; }
+      #contact { grid-template-columns:1fr; }
+      .pj-hd { flex-direction:column; align-items:flex-start; }
+    }
+    @media(max-width:600px) {
+      .a-wrap img { width:190px; height:240px; }
+      .a-badge { right:-6px; font-size:.7rem; padding:9px 11px; }
+      .certs-grid { grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); }
+      .pj-grid { grid-template-columns:1fr; }
+      footer { justify-content:center; text-align:center; }
+      .ft-lks { justify-content:center; }
+    }
+    @media(max-width:380px) {
+      .a-stats { grid-template-columns:1fr 1fr; }
+      .stat:last-child { grid-column:span 2; }
+      .h-name { font-size:2.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cur-d" id="cd"></div>
+<div class="cur-r" id="cr"></div>
+
+<!-- NAV -->
+<nav id="nb">
+  <a href="#hero" class="nav-logo">KGB</a>
+  <ul class="nav-links">
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#certifications">Certifs</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#projects">Projets</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="theme-btn" id="tBtn" title="Changer le thème"><i class="fas fa-moon" id="tIco"></i></button>
+    <a href="#contact" class="nav-cta">Contact</a>
+    <button class="hbg" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drw" id="drw">
+  <a href="#about"          onclick="closeD()">Profil</a>
+  <a href="#certifications" onclick="closeD()">Certifications</a>
+  <a href="#skills"         onclick="closeD()">Compétences</a>
+  <a href="#projects"       onclick="closeD()">Projets</a>
+  <a href="#contact"        onclick="closeD()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="h-grid"></div>
+  <div class="h-glow"></div>
+  <p class="h-eye">Hydrogéologie · Développement Web · Cybersécurité</p>
+  <h1 class="h-name">KOUGBE<br><span>ZOGAN</span><br>Aurras Charnel</h1>
+  <div class="h-div"></div>
+  <p class="h-sub">Étudiant à l'Institut National de l'Eau — Bénin · 18 ans<br>Passionné par le code, la data et la cybersécurité</p>
+  <div class="h-tags">
+    <span class="h-tag">HTML/CSS/JS</span>
+    <span class="h-tag">React</span>
+    <span class="h-tag">Python</span>
+    <span class="h-tag">Django</span>
+    <span class="h-tag">SQL</span>
+    <span class="h-tag">R</span>
+    <span class="h-tag">Linux</span>
+    <span class="h-tag">Cybersécurité</span>
+    <span class="h-tag">WordPress</span>
+  </div>
+  <div class="h-scroll"><span></span><div class="sline"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="a-wrap rev">
+    <img src="M.jpeg" alt="Aurras Charnel KOUGBE ZOGAN">
+    
+  </div>
+  <div class="rev d2">
+    <div class="s-lbl">À propos</div>
+    <div class="a-name">Aurras Charnel</div>
+    <div class="a-role">Étudiant en Hydrogéologie · Développeur Web · Cybersécurité</div>
+    <p class="a-bio">Je m'appelle Aurras Charnel KOUGBE ZOGAN, j'ai 18 ans et je suis en 2ᵉ année à l'Institut National de l'Eau au Bénin, spécialité Hydrogéologie. Passionné par l'informatique, j'ai suivi plusieurs formations en développement web et en cybersécurité pour maîtriser HTML, CSS, JavaScript, React, Python, le langage R, Django, SQL, PHP et Linux. Mon objectif : Devenir un expert des systèmes informatique bien en étant Hydrologue .</p>
+    <div class="a-stats">
+      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Projets</div></div>
+      <div class="stat"><div class="stat-n">8+</div><div class="stat-l">Certifications</div></div>
+      <div class="stat"><div class="stat-n">11+</div><div class="stat-l">Technologies</div></div>
+    </div>
+    <a href="CV_Aurras_Charnel.pdf" class="btn-g"><i class="fas fa-download"></i><span>Télécharger mon CV</span></a>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="rev"><div class="s-lbl">Formations</div><h2 class="s-ttl">Mes <em>Certifications</em></h2></div>
+  <div class="certs-grid">
+    <div class="cert-c rev d1" onclick="openLb('2.jpeg')">
+      <div class="cert-img"><img src="2.jpeg" alt="Cybersecurity Foundations"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Les Fondations de la Cybersécurité</div></div>
+    </div>
+    <div class="cert-c rev d2" onclick="openLb('1.jpeg')">
+      <div class="cert-img"><img src="1.jpeg" alt="Risk Management"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Gestion des Risques liés à la Sécurité</div></div>
+    </div>
+    <div class="cert-c rev d3" onclick="openLb('4.jpeg')">
+      <div class="cert-img"><img src="4.jpeg" alt="Network Security"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Protection et Sécurité des Réseaux</div></div>
+    </div>
+    <div class="cert-c rev d4" onclick="openLb('5.jpeg')">
+      <div class="cert-img"><img src="5.jpeg" alt="Assets Threats"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Assets, Threats &amp; Vulnerabilities</div></div>
+    </div>
+    <div class="cert-c rev d1" onclick="openLb('6.jpeg')">
+      <div class="cert-img"><img src="6.jpeg" alt="Linux SQL"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Linux et SQL</div></div>
+    </div>
+    <div class="cert-c rev d2" onclick="openLb('7.jpeg')">
+      <div class="cert-img"><img src="7.jpeg" alt="Incident Detection"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Détection &amp; Réponse aux Incidents</div></div>
+    </div>
+    <div class="cert-c rev d3" onclick="openLb('8.jpeg')">
+      <div class="cert-img"><img src="8.jpeg" alt="Python Automation"></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Automatisation des Tâches avec Python</div></div>
+    </div>
+    <div class="cert-c rev d4" onclick="openLb('3.jpeg')">
+      <div class="cert-img"><img src="3.jpeg" alt="WordPress"></div>
+      <div class="cert-nfo"><div class="cert-pv">Coursera Project Network</div><div class="cert-nm">Création de Site WordPress</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sk-hd rev"><div class="s-lbl">Savoir-faire</div><h2 class="s-ttl">Compétences <em>Techniques</em></h2></div>
+  <div class="sk-cols">
+    <!-- Développement Web -->
+    <div class="rev d1">
+      <div class="sk-col-ttl"><i class="fas fa-code"></i>Développement Web &amp; Data</div>
+      <div class="sk-list">
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-html5"></i></div><div class="sk-nm">HTML5 / CSS3</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-js"></i></div><div class="sk-nm">JavaScript</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-react"></i></div><div class="sk-nm">React</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-python"></i></div><div class="sk-nm">Python</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-leaf"></i></div><div class="sk-nm">SQL &amp; MySQL</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-php"></i></div><div class="sk-nm">PHP</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fab fa-wordpress"></i></div><div class="sk-nm">WordPress</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-chart-bar"></i></div><div class="sk-nm">R</div></div>
+      </div>
+    </div>
+    <!-- Cybersécurité -->
+    <div class="rev d2">
+      <div class="sk-col-ttl"><i class="fas fa-shield-halved"></i>Cybersécurité</div>
+      <div class="sk-list">
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-terminal"></i></div><div class="sk-nm">Linux</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-lock"></i></div><div class="sk-nm">Gestion des Risques</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-network-wired"></i></div><div class="sk-nm">Sécurité Réseau</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-shield-alt"></i></div><div class="sk-nm">Analyse d'Incidents</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-bug"></i></div><div class="sk-nm">Gestion des Vulnérabilités</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-eye"></i></div><div class="sk-nm">Assets &amp; Threats</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-robot"></i></div><div class="sk-nm">Automatisation Python</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="pj-hd rev">
+    <div><div class="s-lbl">Réalisations</div><h2 class="s-ttl">Mes <em>Projets</em></h2></div>
+    <div class="pj-n">08</div>
+  </div>
+  <div class="pj-grid">
+
+    <!-- 1 -->
+    <div class="pj-card rev d1">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet1a.jpg" alt="Galerie St Jacob 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet1b.jpg" alt="Galerie St Jacob 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet1c.jpg" alt="Galerie St Jacob 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">WordPress</span><span class="pj-tag">E-commerce</span></div>
+        <h3 class="pj-ttl">Galerie St Jacob — Vente d'Objets Culturels</h3>
+        <p class="pj-dsc">Site vitrine et e-commerce pour la Galerie St Jacob au marché des arts de Cotonou. Présentation et vente d'objets d'art africains</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="pj-card rev d2">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet2a.jpg" alt="Blog 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet2b.jpg" alt="Blog 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet2c.jpg" alt="Blog 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">HTML/CSS/JS</span><span class="pj-tag">Responsive</span></div>
+        <h3 class="pj-ttl">Charnscode — Blog Éducatif Personnel</h3>
+        <p class="pj-dsc">Blog interactif pour présenter mais aussi des articles dans divers domaines.</p>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="pj-card rev d3">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet3a.jpg" alt="Miracles 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet3b.jpg" alt="Miracles 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet3c.jpg" alt="Miracles 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">HTML/CSS/JS</span><span class="pj-tag">Site religieux</span></div>
+        <h3 class="pj-ttl">Les Miracles Eucharistiques</h3>
+        <p class="pj-dsc">Site complet présentant les miracles eucharistiques, prières et saints de l'Église catholique, inspiré du travail de Carlo Acutis.</p>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="pj-card rev d4">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet4a.jpg" alt="CSS 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet4b.jpg" alt="CSS 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet4c.jpg" alt="CSS 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">HTML/CSS</span><span class="pj-tag">Éducatif</span></div>
+        <h3 class="pj-ttl">Guide Interactif des Sélecteurs CSS</h3>
+        <p class="pj-dsc">Page éducative présentant les sélecteurs CSS avec explications et exemples interactifs, destinée aux apprenants en développement web.</p>
+      </div>
+    </div>
+
+    <!-- 6 — EN COURS : BeninMarket -->
+    <div class="pj-card rev d2">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet6a.jpg" alt="BeninMarket 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet6b.jpg" alt="BeninMarket 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet6c.jpg" alt="BeninMarket 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+        <div class="wip">⏳ En cours</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">Django</span><span class="pj-tag">Python</span><span class="pj-tag">E-commerce</span></div>
+        <h3 class="pj-ttl">BeninMarket — Marketplace Béninoise</h3>
+        <p class="pj-dsc">Plateforme e-commerce dédiée aux produits et artisans du Bénin. Marketplace complète avec gestion des vendeurs, catalogue produits et système de paiement local.</p>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="pj-card rev d3">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet7a.jpg" alt="Dashboard 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet7b.jpg" alt="Dashboard 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet7c.jpg" alt="Dashboard 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">Django</span><span class="pj-tag">SQL</span><span class="pj-tag">Langage R</span></div>
+        <h3 class="pj-ttl">Site du club innovateur Service HydroBenin</h3>
+        <p class="pj-dsc">Le club de la jeunesse pensant à innover dans le domaine hydrologique & hydrogéologique.</p>
+      </div>
+    </div>
+
+    <!-- 8 — EN COURS : IN-NOVA -->
+    <div class="pj-card rev d4">
+      <div class="pj-car" data-cur="0">
+        <div class="pj-slides">
+          <div class="pj-sl"><img src="projet8a.jpg" alt="IN-NOVA 1"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet8b.jpg" alt="IN-NOVA 2"><div class="pj-ov"></div></div>
+          <div class="pj-sl"><img src="projet8c.jpg" alt="IN-NOVA 3"><div class="pj-ov"></div></div>
+        </div>
+        <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
+        <div class="pj-cnt">1 / 3</div>
+        <div class="wip">⏳ En cours</div>
+      </div>
+      <div class="pj-body">
+        <div class="pj-tags"><span class="pj-tag">React</span><span class="pj-tag">Django</span><span class="pj-tag">Innovation</span></div>
+        <h3 class="pj-ttl">Site Officiel de IN-NOVA</h3>
+        <p class="pj-dsc">Création du site web officiel de IN-NOVA, structure innovante béninoise. Présentation des activités, projets, équipe et vision de l'organisation.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="rev">
+    <div class="s-lbl">Contact</div>
+    <h2 class="s-ttl">Travaillons <em>Ensemble</em></h2>
+    <p class="c-txt">Disponible pour des projets freelance, collaborations ou opportunités. N'hésitez pas à me contacter pour votre projet web, cybersécurité ou data.</p>
+    <a href="mailto:charnokgb@gmail.com" class="c-mail">charnokgb@gmail.com</a>
+  </div>
+  <div class="soc-list rev d2">
+    <a href="mailto:charnokgb@gmail.com" class="soc-a">
+      <div class="soc-ico"><i class="fas fa-envelope"></i></div>
+      <div class="soc-inf"><div class="soc-pl">Email</div><div class="soc-hd">charnokgb@gmail.com</div></div>
+      <div class="soc-ar"><i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="https://github.com/charnscode" target="_blank" rel="noopener" class="soc-a">
+      <div class="soc-ico"><i class="fab fa-github"></i></div>
+      <div class="soc-inf"><div class="soc-pl">GitHub</div><div class="soc-hd">@charnscode</div></div>
+      <div class="soc-ar"><i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="https://www.linkedin.com/in/aurras-charnel-kougbe-zogan-b2b42336a" target="_blank" rel="noopener" class="soc-a">
+      <div class="soc-ico"><i class="fab fa-linkedin-in"></i></div>
+      <div class="soc-inf"><div class="soc-pl">LinkedIn</div><div class="soc-hd">Aurras Charnel KOUGBE ZOGAN</div></div>
+      <div class="soc-ar"><i class="fas fa-arrow-right"></i></div>
+    </a>
+    <a href="https://wa.me/2290144219814" target="_blank" rel="noopener" class="soc-a">
+      <div class="soc-ico"><i class="fab fa-whatsapp"></i></div>
+      <div class="soc-inf"><div class="soc-pl">WhatsApp</div><div class="soc-hd">+229 01 44 21 98 14</div></div>
+      <div class="soc-ar"><i class="fas fa-arrow-right"></i></div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo">KGB</div>
+  <div class="ft-txt">© 2025 Aurras Charnel KOUGBE ZOGAN — Tous droits réservés</div>
+  <div class="ft-lks"><a href="#hero">Haut de page</a><a href="#projects">Projets</a><a href="#contact">Contact</a></div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLb()">
+  <div class="lb-cls">ESC · Fermer</div>
+  <img id="lbImg" src="" alt="">
+</div>
+
+<script>
+/* ── Cursor ── */
+const cd=document.getElementById('cd'), cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cd.style.cssText=`left:${mx-4}px;top:${my-4}px`;
+});
+(function a(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;cr.style.cssText=`left:${rx-18}px;top:${ry-18}px`;requestAnimationFrame(a)})();
+document.querySelectorAll('a,button,.cert-c,.pj-card,.pj-arr,.pj-dot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cr.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cr.classList.remove('big'));
+});
+
+/* ── Theme ── */
+const html=document.documentElement, tBtn=document.getElementById('tBtn'), tIco=document.getElementById('tIco');
+let dark=true;
+tBtn.addEventListener('click',()=>{
+  dark=!dark;
+  html.setAttribute('data-theme',dark?'dark':'light');
+  tIco.className=dark?'fas fa-moon':'fas fa-sun';
+});
+
+/* ── Hamburger ── */
+const hbg=document.getElementById('hbg'), drw=document.getElementById('drw');
+hbg.addEventListener('click',()=>{hbg.classList.toggle('open');drw.classList.toggle('open');});
+function closeD(){hbg.classList.remove('open');drw.classList.remove('open');}
+
+/* ── Nav scroll ── */
+window.addEventListener('scroll',()=>document.getElementById('nb').classList.toggle('scrolled',scrollY>40),{passive:true});
+
+/* ── Reveal ── */
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis');}),{threshold:.07});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+
+/* ── Carousel ── */
+function upd(car){
+  const c=+car.dataset.cur;
+  car.querySelector('.pj-slides').style.transform=`translateX(-${c*100}%)`;
+  const dots=car.querySelectorAll('.pj-dot');
+  dots.forEach((d,i)=>d.classList.toggle('on',i===c));
+  car.querySelector('.pj-cnt').textContent=`${c+1} / ${dots.length}`;
+  car.querySelectorAll('.pj-sl img').forEach((img,i)=>{
+    img.onclick=i===c?()=>openLb(img.src):null;
+  });
+}
+function pNext(b){const c=b.closest('.pj-car'),t=c.querySelectorAll('.pj-dot').length;c.dataset.cur=(+c.dataset.cur+1)%t;upd(c);}
+function pPrev(b){const c=b.closest('.pj-car'),t=c.querySelectorAll('.pj-dot').length;c.dataset.cur=(+c.dataset.cur-1+t)%t;upd(c);}
+function pGo(d,i){const c=d.closest('.pj-car');c.dataset.cur=i;upd(c);}
+function autoC(c){return setInterval(()=>{const t=c.querySelectorAll('.pj-dot').length;c.dataset.cur=(+c.dataset.cur+1)%t;upd(c);},3800);}
+document.querySelectorAll('.pj-car').forEach(c=>{
+  let iv=autoC(c); upd(c);
+  c.addEventListener('mouseenter',()=>clearInterval(iv));
+  c.addEventListener('mouseleave',()=>{iv=autoC(c);});
+});
+
+/* ── Lightbox ── */
+function openLb(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('on');document.body.style.overflow='hidden';}
+function closeLb(){document.getElementById('lb').classList.remove('on');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+</script>
+</body>
+</html>
