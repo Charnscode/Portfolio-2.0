@@ -51,7 +51,6 @@
       overflow-x:hidden;
       transition:background .4s,color .4s;
     }
-    /* block ALL overflow globally */
     * { word-wrap:break-word; overflow-wrap:break-word; min-width:0; }
     img { display:block; max-width:100%; height:auto; }
 
@@ -89,7 +88,15 @@
     .nav-links a:hover { color:var(--gold); }
     .nav-links a:hover::after { width:100%; }
 
-    .nav-r { display:flex; align-items:center; gap:10px; flex-shrink:0; }
+    .nav-r { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+    /* Lang Toggle Styles */
+    .lang-toggle { display:flex; gap:4px; background:var(--bg3); padding:3px; border-radius:4px; border:1px solid var(--bdr); }
+    .lang-btn {
+      background:none; border:none; color:var(--muted); font-family:'DM Mono',monospace;
+      font-size:.62rem; font-weight:600; padding:4px 8px; border-radius:2px; cursor:pointer; transition:var(--tr);
+    }
+    .lang-btn.active { background:var(--gold); color:var(--inv); }
 
     .theme-btn {
       width:38px; height:38px; border-radius:50%;
@@ -230,13 +237,7 @@
       filter:grayscale(15%) contrast(1.05); transition:filter .4s;
     }
     .a-wrap:hover img { filter:none; }
-    .a-badge {
-      position:absolute; bottom:22px; right:-32px;
-      background:var(--gold); color:#0a0a0f;
-      font-family:'Cormorant Garant',serif; font-size:.78rem; font-weight:700;
-      line-height:1.45; padding:11px 14px; border-radius:3px; text-align:center; z-index:2;
-      white-space:nowrap;
-    }
+    
     .a-name {
       font-family:'Cormorant Garant',serif; font-size:clamp(1.4rem,3.5vw,2.1rem);
       font-weight:700; color:var(--gold); margin-bottom:4px;
@@ -380,7 +381,7 @@
       .nav-links,.nav-cta { display:none; }
       .hbg { display:flex; }
       #about { grid-template-columns:1fr; justify-items:center; text-align:center; }
-      .a-badge { right:-10px; }
+      .a-wrap img { width:220px; height:280px; }
       .a-stats { grid-template-columns:repeat(3,1fr); }
       .sk-cols { grid-template-columns:1fr; }
       #contact { grid-template-columns:1fr; }
@@ -388,7 +389,6 @@
     }
     @media(max-width:600px) {
       .a-wrap img { width:190px; height:240px; }
-      .a-badge { right:-6px; font-size:.7rem; padding:9px 11px; }
       .certs-grid { grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); }
       .pj-grid { grid-template-columns:1fr; }
       footer { justify-content:center; text-align:center; }
@@ -410,33 +410,38 @@
 <nav id="nb">
   <a href="#hero" class="nav-logo">KGB</a>
   <ul class="nav-links">
-    <li><a href="#about">Profil</a></li>
-    <li><a href="#certifications">Certifs</a></li>
-    <li><a href="#skills">Compétences</a></li>
-    <li><a href="#projects">Projets</a></li>
+    <li><a href="#about" data-i18n="nav_about">Profil</a></li>
+    <li><a href="#certifications" data-i18n="nav_certif">Certifs</a></li>
+    <li><a href="#skills" data-i18n="nav_skills">Compétences</a></li>
+    <li><a href="#projects" data-i18n="nav_projects">Projets</a></li>
   </ul>
   <div class="nav-r">
+    <!-- I18N Selector Buttons -->
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang-btn="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang-btn="en" onclick="setLang('en')">EN</button>
+    </div>
     <button class="theme-btn" id="tBtn" title="Changer le thème"><i class="fas fa-moon" id="tIco"></i></button>
-    <a href="#contact" class="nav-cta">Contact</a>
+    <a href="#contact" class="nav-cta" data-i18n="nav_contact">Contact</a>
     <button class="hbg" id="hbg" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="nav-drw" id="drw">
-  <a href="#about"          onclick="closeD()">Profil</a>
-  <a href="#certifications" onclick="closeD()">Certifications</a>
-  <a href="#skills"         onclick="closeD()">Compétences</a>
-  <a href="#projects"       onclick="closeD()">Projets</a>
-  <a href="#contact"        onclick="closeD()">Contact</a>
+  <a href="#about"          onclick="closeD()" data-i18n="nav_about">Profil</a>
+  <a href="#certifications" onclick="closeD()" data-i18n="nav_certif">Certifications</a>
+  <a href="#skills"         onclick="closeD()" data-i18n="nav_skills">Compétences</a>
+  <a href="#projects"       onclick="closeD()" data-i18n="nav_projects">Projets</a>
+  <a href="#contact"        onclick="closeD()" data-i18n="nav_contact">Contact</a>
 </div>
 
 <!-- HERO -->
 <section id="hero">
   <div class="h-grid"></div>
   <div class="h-glow"></div>
-  <p class="h-eye">Hydrogéologie · Développement Web · Cybersécurité</p>
+  <p class="h-eye" data-i18n="hero_badge">Hydrogéologie · Développement Web · Cybersécurité</p>
   <h1 class="h-name">KOUGBE<br><span>ZOGAN</span><br>Aurras Charnel</h1>
   <div class="h-div"></div>
-  <p class="h-sub">Étudiant à l'Institut National de l'Eau — Bénin · 18 ans<br>Passionné par le code, la data et la cybersécurité</p>
+  <p class="h-sub" data-i18n="hero_sub">Étudiant à l'Institut National de l'Eau — Bénin · 18 ans<br>Passionné par le code, la data et la cybersécurité</p>
   <div class="h-tags">
     <span class="h-tag">HTML/CSS/JS</span>
     <span class="h-tag">React</span>
@@ -448,81 +453,86 @@
     <span class="h-tag">Cybersécurité</span>
     <span class="h-tag">WordPress</span>
   </div>
-  <div class="h-scroll"><span></span><div class="sline"></div></div>
+  <div class="h-scroll"><span data-i18n="hero_scroll">SCROLL</span><div class="sline"></div></div>
 </section>
 
 <!-- ABOUT -->
 <section id="about">
   <div class="a-wrap rev">
-    <img src="file_00000000d89471f4b0def7de02535df2~3.png" alt="Aurras Charnel KOUGBE ZOGAN">
-    
+        <img src="file_00000000d89471f4b0def7de02535df2~3.png" alt="Aurras Charnel KOUGBE ZOGAN">
   </div>
   <div class="rev d2">
-    <div class="s-lbl">À propos</div>
+    <div class="s-lbl" data-i18n="about_label">À propos</div>
     <div class="a-name">Aurras Charnel</div>
-    <div class="a-role">Étudiant en Hydrogéologie · Développeur Web · Cybersécurité</div>
-    <p class="a-bio">Je m'appelle Aurras Charnel KOUGBE ZOGAN, j'ai 18 ans et je suis en 2ᵉ année à l'Institut National de l'Eau au Bénin, spécialité Hydrogéologie. Passionné par l'informatique, j'ai suivi plusieurs formations en développement web et en cybersécurité pour maîtriser HTML, CSS, JavaScript, React, Python, le langage R, Django, SQL, PHP et Linux. Mon objectif : Devenir un expert des systèmes informatique bien en étant Hydrologue .</p>
+    <div class="a-role" data-i18n="about_role">Étudiant en Hydrogéologie · Développeur Web · Cybersécurité</div>
+    <p class="a-bio" data-i18n="about_bio">Je m'appelle Aurras Charnel KOUGBE ZOGAN, j'ai 18 ans et je suis en 2ᵉ année à l'Institut National de l'Eau au Bénin, spécialité Hydrogéologie. Passionné par l'informatique, j'ai suivi plusieurs formations en développement web et en cybersécurité pour maîtriser HTML, CSS, JavaScript, React, Python, le langage R, Django, SQL, PHP et Linux. Mon objectif : Devenir un expert des systèmes informatique bien en étant Hydrologue .</p>
     <div class="a-stats">
-      <div class="stat"><div class="stat-n">8</div><div class="stat-l">Projets</div></div>
-      <div class="stat"><div class="stat-n">8+</div><div class="stat-l">Certifications</div></div>
-      <div class="stat"><div class="stat-n">11+</div><div class="stat-l">Technologies</div></div>
+      <div class="stat"><div class="stat-n">08</div><div class="stat-l" data-i18n="stat_projects">Projets</div></div>
+      <div class="stat"><div class="stat-n">8+</div><div class="stat-l" data-i18n="stat_certif">Certifications</div></div>
+      <div class="stat"><div class="stat-n">11+</div><div class="stat-l" data-i18n="stat_tech">Technologies</div></div>
     </div>
-    <a href="CV_Aurras_Charnel.pdf" class="btn-g"><i class="fas fa-download"></i><span>Télécharger mon CV</span></a>
+    <a href="CV_Aurras_Charnel.pdf" class="btn-g"><i class="fas fa-download"></i><span data-i18n="about_cv">Télécharger mon CV</span></a>
   </div>
 </section>
 
 <!-- CERTIFICATIONS -->
 <section id="certifications">
-  <div class="rev"><div class="s-lbl">Formations</div><h2 class="s-ttl">Mes <em>Certifications</em></h2></div>
+  <div class="rev">
+    <div class="s-lbl" data-i18n="certif_label">Formations</div>
+    <h2 class="s-ttl" data-i18n="certif_title">Mes <em>Certifications</em></h2>
+  </div>
   <div class="certs-grid">
     <div class="cert-c rev d1" onclick="openLb('2.jpeg')">
       <div class="cert-img"><img src="2.jpeg" alt="Cybersecurity Foundations"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Les Fondations de la Cybersécurité</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert1_title">Les Fondations de la Cybersécurité</div></div>
     </div>
     <div class="cert-c rev d2" onclick="openLb('1.jpeg')">
       <div class="cert-img"><img src="1.jpeg" alt="Risk Management"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Gestion des Risques liés à la Sécurité</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert2_title">Gestion des Risques liés à la Sécurité</div></div>
     </div>
     <div class="cert-c rev d3" onclick="openLb('4.jpeg')">
       <div class="cert-img"><img src="4.jpeg" alt="Network Security"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Protection et Sécurité des Réseaux</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert3_title">Protection et Sécurité des Réseaux</div></div>
     </div>
     <div class="cert-c rev d4" onclick="openLb('5.jpeg')">
       <div class="cert-img"><img src="5.jpeg" alt="Assets Threats"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Assets, Threats &amp; Vulnerabilities</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert4_title">Assets, Threats &amp; Vulnerabilities</div></div>
     </div>
     <div class="cert-c rev d1" onclick="openLb('6.jpeg')">
       <div class="cert-img"><img src="6.jpeg" alt="Linux SQL"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Linux et SQL</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert5_title">Linux et SQL</div></div>
     </div>
     <div class="cert-c rev d2" onclick="openLb('7.jpeg')">
       <div class="cert-img"><img src="7.jpeg" alt="Incident Detection"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Détection &amp; Réponse aux Incidents</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert6_title">Détection &amp; Réponse aux Incidents</div></div>
     </div>
     <div class="cert-c rev d3" onclick="openLb('8.jpeg')">
       <div class="cert-img"><img src="8.jpeg" alt="Python Automation"></div>
-      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm">Automatisation des Tâches avec Python</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Google · Coursera</div><div class="cert-nm" data-i18n="cert7_title">Automatisation des Tâches avec Python</div></div>
     </div>
     <div class="cert-c rev d4" onclick="openLb('3.jpeg')">
       <div class="cert-img"><img src="3.jpeg" alt="WordPress"></div>
-      <div class="cert-nfo"><div class="cert-pv">Coursera Project Network</div><div class="cert-nm">Création de Site WordPress</div></div>
+      <div class="cert-nfo"><div class="cert-pv">Coursera Project Network</div><div class="cert-nm" data-i18n="cert8_title">Création de Site WordPress</div></div>
     </div>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="sk-hd rev"><div class="s-lbl">Savoir-faire</div><h2 class="s-ttl">Compétences <em>Techniques</em></h2></div>
+  <div class="sk-hd rev">
+    <div class="s-lbl" data-i18n="skills_label">Savoir-faire</div>
+    <h2 class="s-ttl" data-i18n="skills_title">Compétences <em>Techniques</em></h2>
+  </div>
   <div class="sk-cols">
     <!-- Développement Web -->
     <div class="rev d1">
-      <div class="sk-col-ttl"><i class="fas fa-code"></i>Développement Web &amp; Data</div>
+      <div class="sk-col-ttl"><i class="fas fa-code"></i><span data-i18n="skills_col1">Développement Web &amp; Data</span></div>
       <div class="sk-list">
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-html5"></i></div><div class="sk-nm">HTML5 / CSS3</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-js"></i></div><div class="sk-nm">JavaScript</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-react"></i></div><div class="sk-nm">React</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-python"></i></div><div class="sk-nm">Python</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-leaf"></i></div><div class="sk-nm">SQL &amp; MySQL</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-database"></i></div><div class="sk-nm">SQL &amp; MySQL</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-php"></i></div><div class="sk-nm">PHP</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fab fa-wordpress"></i></div><div class="sk-nm">WordPress</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fas fa-chart-bar"></i></div><div class="sk-nm">R</div></div>
@@ -530,15 +540,15 @@
     </div>
     <!-- Cybersécurité -->
     <div class="rev d2">
-      <div class="sk-col-ttl"><i class="fas fa-shield-halved"></i>Cybersécurité</div>
+      <div class="sk-col-ttl"><i class="fas fa-shield-halved"></i><span data-i18n="skills_col2">Cybersécurité</span></div>
       <div class="sk-list">
         <div class="sk-pill"><div class="sk-ico"><i class="fas fa-terminal"></i></div><div class="sk-nm">Linux</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-lock"></i></div><div class="sk-nm">Gestion des Risques</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-network-wired"></i></div><div class="sk-nm">Sécurité Réseau</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-shield-alt"></i></div><div class="sk-nm">Analyse d'Incidents</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-bug"></i></div><div class="sk-nm">Gestion des Vulnérabilités</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-lock"></i></div><div class="sk-nm" data-i18n="sk1">Gestion des Risques</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-network-wired"></i></div><div class="sk-nm" data-i18n="sk2">Sécurité Réseau</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-shield-alt"></i></div><div class="sk-nm" data-i18n="sk3">Analyse d'Incidents</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-bug"></i></div><div class="sk-nm" data-i18n="sk4">Gestion des Vulnérabilités</div></div>
         <div class="sk-pill"><div class="sk-ico"><i class="fas fa-eye"></i></div><div class="sk-nm">Assets &amp; Threats</div></div>
-        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-robot"></i></div><div class="sk-nm">Automatisation Python</div></div>
+        <div class="sk-pill"><div class="sk-ico"><i class="fas fa-robot"></i></div><div class="sk-nm" data-i18n="sk5">Automatisation Python</div></div>
       </div>
     </div>
   </div>
@@ -547,7 +557,10 @@
 <!-- PROJECTS -->
 <section id="projects">
   <div class="pj-hd rev">
-    <div><div class="s-lbl">Réalisations</div><h2 class="s-ttl">Mes <em>Projets</em></h2></div>
+    <div>
+      <div class="s-lbl" data-i18n="proj_label">Réalisations</div>
+      <h2 class="s-ttl" data-i18n="proj_title">Mes <em>Projets</em></h2>
+    </div>
     <div class="pj-n">08</div>
   </div>
   <div class="pj-grid">
@@ -567,8 +580,8 @@
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">WordPress</span><span class="pj-tag">E-commerce</span></div>
-        <h3 class="pj-ttl">Galerie St Jacob — Vente d'Objets Culturels</h3>
-        <p class="pj-dsc">Site vitrine et e-commerce pour la Galerie St Jacob au marché des arts de Cotonou. Présentation et vente d'objets d'art africains</p>
+        <h3 class="pj-ttl" data-i18n="p1_title">Galerie St Jacob — Vente d'Objets Culturels</h3>
+        <p class="pj-dsc" data-i18n="p1_desc">Site vitrine et e-commerce pour la Galerie St Jacob au marché des arts de Cotonou. Présentation et vente d'objets d'art africains</p>
       </div>
     </div>
 
@@ -581,14 +594,14 @@
           <div class="pj-sl"><img src="projet2c.jpg" alt="Blog 3"><div class="pj-ov"></div></div>
         </div>
         <button class="pj-arr lft" onclick="pPrev(this)"><i class="fas fa-chevron-left"></i></button>
-        <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
+        <button class="pj-arr rgt" onclick="pNext(this)._"></button>
         <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
         <div class="pj-cnt">1 / 3</div>
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">HTML/CSS/JS</span><span class="pj-tag">Responsive</span></div>
-        <h3 class="pj-ttl">Charnscode — Blog Éducatif Personnel</h3>
-        <p class="pj-dsc">Blog interactif pour présenter mais aussi des articles dans divers domaines.</p>
+        <h3 class="pj-ttl" data-i18n="p2_title">Charnscode — Blog Éducatif Personnel</h3>
+        <p class="pj-dsc" data-i18n="p2_desc">Blog interactif pour présenter mais aussi des articles dans divers domaines.</p>
       </div>
     </div>
 
@@ -607,8 +620,8 @@
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">HTML/CSS/JS</span><span class="pj-tag">Site religieux</span></div>
-        <h3 class="pj-ttl">Les Miracles Eucharistiques</h3>
-        <p class="pj-dsc">Site complet présentant les miracles eucharistiques, prières et saints de l'Église catholique, inspiré du travail de Carlo Acutis.</p>
+        <h3 class="pj-ttl" data-i18n="p3_title">Les Miracles Eucharistiques</h3>
+        <p class="pj-dsc" data-i18n="p3_desc">Site complet présentant les miracles eucharistiques, prières et saints de l'Église catholique, inspiré du travail de Carlo Acutis.</p>
       </div>
     </div>
 
@@ -627,12 +640,12 @@
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">HTML/CSS</span><span class="pj-tag">Éducatif</span></div>
-        <h3 class="pj-ttl">Guide Interactif des Sélecteurs CSS</h3>
-        <p class="pj-dsc">Page éducative présentant les sélecteurs CSS avec explications et exemples interactifs, destinée aux apprenants en développement web.</p>
+        <h3 class="pj-ttl" data-i18n="p4_title">Guide Interactif des Sélecteurs CSS</h3>
+        <p class="pj-dsc" data-i18n="p4_desc">Page éducative présentant les sélecteurs CSS avec explications et exemples interactifs, destinée aux apprenants en développement web.</p>
       </div>
     </div>
 
-    <!-- 6 — EN COURS : BeninMarket -->
+    <!-- 6 — BeninMarket -->
     <div class="pj-card rev d2">
       <div class="pj-car" data-cur="0">
         <div class="pj-slides">
@@ -644,12 +657,12 @@
         <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
         <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
         <div class="pj-cnt">1 / 3</div>
-        <div class="wip">⏳ En cours</div>
+        <div class="wip" data-i18n="wip">⏳ En cours</div>
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">Django</span><span class="pj-tag">Python</span><span class="pj-tag">E-commerce</span></div>
         <h3 class="pj-ttl">BeninMarket — Marketplace Béninoise</h3>
-        <p class="pj-dsc">Plateforme e-commerce dédiée aux produits et artisans du Bénin. Marketplace complète avec gestion des vendeurs, catalogue produits et système de paiement local.</p>
+        <p class="pj-dsc" data-i18n="p5_desc">Plateforme e-commerce dédiée aux produits et artisans du Bénin. Marketplace complète avec gestion des vendeurs, catalogue produits et système de paiement local.</p>
       </div>
     </div>
 
@@ -668,12 +681,12 @@
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">Django</span><span class="pj-tag">SQL</span><span class="pj-tag">Langage R</span></div>
-        <h3 class="pj-ttl">Site du club innovateur Service HydroBenin</h3>
-        <p class="pj-dsc">Le club de la jeunesse pensant à innover dans le domaine hydrologique & hydrogéologique.</p>
+        <h3 class="pj-ttl" data-i18n="p6_title">Site du club innovateur Service HydroBenin</h3>
+        <p class="pj-dsc" data-i18n="p6_desc">Le club de la jeunesse pensant à innover dans le domaine hydrologique & hydrogéologique.</p>
       </div>
     </div>
 
-    <!-- 8 — EN COURS : IN-NOVA -->
+    <!-- 8 — IN-NOVA -->
     <div class="pj-card rev d4">
       <div class="pj-car" data-cur="0">
         <div class="pj-slides">
@@ -685,12 +698,12 @@
         <button class="pj-arr rgt" onclick="pNext(this)"><i class="fas fa-chevron-right"></i></button>
         <div class="pj-dots"><span class="pj-dot on" onclick="pGo(this,0)"></span><span class="pj-dot" onclick="pGo(this,1)"></span><span class="pj-dot" onclick="pGo(this,2)"></span></div>
         <div class="pj-cnt">1 / 3</div>
-        <div class="wip">⏳ En cours</div>
+        <div class="wip" data-i18n="wip">⏳ En cours</div>
       </div>
       <div class="pj-body">
         <div class="pj-tags"><span class="pj-tag">React</span><span class="pj-tag">Django</span><span class="pj-tag">Innovation</span></div>
-        <h3 class="pj-ttl">Site Officiel de IN-NOVA</h3>
-        <p class="pj-dsc">Création du site web officiel de IN-NOVA, structure innovante béninoise. Présentation des activités, projets, équipe et vision de l'organisation.</p>
+        <h3 class="pj-ttl" data-i18n="p7_title">Site Officiel de IN-NOVA</h3>
+        <p class="pj-dsc" data-i18n="p7_desc">Création du site web officiel de IN-NOVA, structure innovante béninoise. Présentation des activités, projets, équipe et vision de l'organisation.</p>
       </div>
     </div>
 
@@ -700,9 +713,9 @@
 <!-- CONTACT -->
 <section id="contact">
   <div class="rev">
-    <div class="s-lbl">Contact</div>
-    <h2 class="s-ttl">Travaillons <em>Ensemble</em></h2>
-    <p class="c-txt">Disponible pour des projets freelance, collaborations ou opportunités. N'hésitez pas à me contacter pour votre projet web, cybersécurité ou data.</p>
+    <div class="s-lbl" data-i18n="contact_label">Contact</div>
+    <h2 class="s-ttl" data-i18n="contact_title">Travaillons <em>Ensemble</em></h2>
+    <p class="c-txt" data-i18n="contact_desc">Disponible pour des projets freelance, collaborations ou opportunités. N'hésitez pas à me contacter pour votre projet web, cybersécurité ou data.</p>
     <a href="mailto:charnokgb@gmail.com" class="c-mail">charnokgb@gmail.com</a>
   </div>
   <div class="soc-list rev d2">
@@ -732,8 +745,12 @@
 <!-- FOOTER -->
 <footer>
   <div class="ft-logo">KGB</div>
-  <div class="ft-txt">© 2025 Aurras Charnel KOUGBE ZOGAN — Tous droits réservés</div>
-  <div class="ft-lks"><a href="#hero">Haut de page</a><a href="#projects">Projets</a><a href="#contact">Contact</a></div>
+  <div class="ft-txt">© 2026 Aurras Charnel KOUGBE ZOGAN — <span data-i18n="ft_rights">Tous droits réservés</span></div>
+  <div class="ft-lks">
+    <a href="#hero" data-i18n="ft_top">Haut de page</a>
+    <a href="#projects" data-i18n="nav_projects">Projets</a>
+    <a href="#contact">Contact</a>
+  </div>
 </footer>
 
 <!-- LIGHTBOX -->
@@ -802,6 +819,134 @@ document.querySelectorAll('.pj-car').forEach(c=>{
 function openLb(src){document.getElementById('lbImg').src=src;document.getElementById('lb').classList.add('on');document.body.style.overflow='hidden';}
 function closeLb(){document.getElementById('lb').classList.remove('on');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+/* ─── I18N SYSTEM ─────────────────────────────── */
+const translations = {
+  fr: {
+    nav_about: "Profil",
+    nav_certif: "Certifs",
+    nav_skills: "Compétences",
+    nav_projects: "Projets",
+    nav_contact: "Contact",
+    hero_badge: "Hydrogéologie · Développement Web · Cybersécurité",
+    hero_sub: "Étudiant à l'Institut National de l'Eau — Bénin · 18 ans<br>Passionné par le code, la data et la cybersécurité",
+    hero_scroll: "SCROLL",
+    about_label: "À propos",
+    about_role: "Étudiant en Hydrogéologie · Développeur Web · Cybersécurité",
+    about_bio: "Je m'appelle Aurras Charnel KOUGBE ZOGAN, j'ai 18 ans et je suis en 2ᵉ année à l'Institut National de l'Eau au Bénin, spécialité Hydrogéologie. Passionné par l'informatique, j'ai suivi plusieurs formations en développement web et en cybersécurité pour maîtriser HTML, CSS, JavaScript, React, Python, le langage R, Django, SQL, PHP et Linux. Mon objectif : Devenir un expert des systèmes informatique bien en étant Hydrologue .",
+    stat_projects: "Projets",
+    stat_certif: "Certifications",
+    stat_tech: "Technologies",
+    about_cv: "Télécharger mon CV",
+    certif_label: "Formations",
+    certif_title: "Mes <em>Certifications</em>",
+    cert1_title: "Les Fondations de la Cybersécurité",
+    cert2_title: "Gestion des Risques liés à la Sécurité",
+    cert3_title: "Protection et Sécurité des Réseaux",
+    cert4_title: "Assets, Threats &amp; Vulnerabilities",
+    cert5_title: "Linux et SQL",
+    cert6_title: "Détection &amp; Réponse aux Incidents",
+    cert7_title: "Automatisation des Tâches avec Python",
+    cert8_title: "Création de Site WordPress",
+    skills_label: "Savoir-faire",
+    skills_title: "Compétences <em>Techniques</em>",
+    skills_col1: "Développement Web &amp; Data",
+    skills_col2: "Cybersécurité",
+    sk1: "Gestion des Risques",
+    sk2: "Sécurité Réseau",
+    sk3: "Analyse d'Incidents",
+    sk4: "Gestion des Vulnérabilités",
+    sk5: "Automatisation Python",
+    proj_label: "Réalisations",
+    proj_title: "Mes <em>Projets</em>",
+    p1_title: "Galerie St Jacob — Vente d'Objets Culturels",
+    p1_desc: "Site vitrine et e-commerce pour la Galerie St Jacob au marché des arts de Cotonou. Présentation et vente d'objets d'art africains",
+    p2_title: "Charnscode — Blog Éducatif Personnel",
+    p2_desc: "Blog interactif pour présenter mais aussi des articles dans divers domaines.",
+    p3_title: "Les Miracles Eucharistiques",
+    p3_desc: "Site complet présentant les miracles eucharistiques, prières et saints de l'Église catholique, inspiré du travail de Carlo Acutis.",
+    p4_title: "Guide Interactif des Sélecteurs CSS",
+    p4_desc: "Page éducative présentant les sélecteurs CSS avec explications et exemples interactifs, destinée aux apprenants en développement web.",
+    p5_desc: "Plateforme e-commerce dédiée aux produits et artisans du Bénin. Marketplace complète avec gestion des vendeurs, catalogue produits et système de paiement local.",
+    p6_title: "Site du club innovateur Service HydroBenin",
+    p6_desc: "Le club de la jeunesse pensant à innover dans le domaine hydrologique & hydrogéologique.",
+    p7_title: "Site Officiel de IN-NOVA",
+    p7_desc: "Création du site web officiel de IN-NOVA, structure innovante béninoise. Présentation des activités, projets, équipe et vision de l'organisation.",
+    contact_label: "Contact",
+    contact_title: "Travaillons <em>Ensemble</em>",
+    contact_desc: "Disponible pour des projets freelance, collaborations ou opportunités. N'hésitez pas à me contacter pour votre projet web, cybersécurité ou data.",
+    wip: "⏳ En cours",
+    ft_rights: "Tous droits réservés",
+    ft_top: "Haut de page"
+  },
+  en: {
+    nav_about: "Profile",
+    nav_certif: "Certs",
+    nav_skills: "Skills",
+    nav_projects: "Projects",
+    nav_contact: "Contact",
+    hero_badge: "Hydrogeology · Web Development · Cybersecurity",
+    hero_sub: "Student at the National Water Institute — Benin · 18 years old<br>Passionate about code, data, and cybersecurity",
+    hero_scroll: "SCROLL",
+    about_label: "About Me",
+    about_role: "Hydrogeology Student · Web Developer · Cybersecurity",
+    about_bio: "My name is Aurras Charnel KOUGBE ZOGAN, I am 18 years old and I am in my 2nd year at the National Water Institute in Benin, specializing in Hydrogeology. Passionate about computer science, I have completed several training courses in web development and cybersecurity to master HTML, CSS, JavaScript, React, Python, R language, Django, SQL, PHP, and Linux. My goal: Become an expert in computer systems while being a Hydrologist.",
+    stat_projects: "Projects",
+    stat_certif: "Certifications",
+    stat_tech: "Technologies",
+    about_cv: "Download my CV",
+    certif_label: "Training",
+    certif_title: "My <em>Certifications</em>",
+    cert1_title: "Foundations of Cybersecurity",
+    cert2_title: "Play It Safe: Manage Security Risks",
+    cert3_title: "Connect and Protect: Networks and Network Security",
+    cert4_title: "Tools of the Trade: Linux and SQL",
+    cert5_title: "Assets, Threats, and Vulnerabilities",
+    cert6_title: "Sound the Alarm: Detection and Response",
+    cert7_title: "Automate Cybersecurity Tasks with Python",
+    cert8_title: "Create a WordPress Website",
+    skills_label: "Expertise",
+    skills_title: "Technical <em>Skills</em>",
+    skills_col1: "Web Development &amp; Data",
+    skills_col2: "Cybersecurity",
+    sk1: "Risk Management",
+    sk2: "Network Security",
+    sk3: "Incident Analysis",
+    sk4: "Vulnerability Management",
+    sk5: "Python Automation",
+    proj_label: "Portfolio",
+    proj_title: "My <em>Projects</em>",
+    p1_title: "St Jacob Gallery — Cultural Art Sales",
+    p1_desc: "Showcase and e-commerce website for the St Jacob Gallery at the Cotonou arts market. Presentation and sales of African art objects.",
+    p2_title: "Charnscode — Personal Educational Blog",
+    p2_desc: "Interactive blog to present and share articles across various technological fields.",
+    p3_title: "The Eucharistic Miracles",
+    p3_desc: "Comprehensive website presenting Eucharistic miracles, prayers, and saints of the Catholic Church, inspired by the work of Carlo Acutis.",
+    p4_title: "CSS Selectors Interactive Guide",
+    p4_desc: "Educational page presenting CSS selectors with explanations and live interactive examples, designed for web development learners.",
+    p5_desc: "E-commerce platform dedicated to local Beninese products and craftsmen. Complete marketplace with vendor management, product catalog, and local payment integration.",
+    p6_title: "Service HydroBenin Innovators Club Site",
+    p6_desc: "The youth club focused on pioneering innovation in the hydrological & hydrogeological fields.",
+    p7_title: "IN-NOVA Official Website",
+    p7_desc: "Creation of the official website for IN-NOVA, an innovative Beninese structure. Showcasing activities, projects, team, and organizational vision.",
+    contact_label: "Contact",
+    contact_title: "Let's Work <em>Together</em>",
+    contact_desc: "Available for freelance projects, collaborations, or opportunities. Feel free to reach out for your web, cybersecurity, or data projects.",
+    wip: "⏳ In Progress",
+    ft_rights: "All rights reserved",
+    ft_top: "Back to top"
+  }
+};
+
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.langBtn === lang));
+  const t = translations[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.documentElement.lang = lang;
+}
 </script>
 </body>
 </html>
