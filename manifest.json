@@ -1,0 +1,74 @@
+{
+  "name": "Aurras Charnel – Portfolio Dev & Cybersécurité",
+  "short_name": "AC Portfolio",
+  "description": "Portfolio de Aurras Charnel KOUGBE ZOGAN – Développeur Web Full-Stack & Expert Cybersécurité, étudiant à l'Institut National de l'Eau (INE) du Bénin.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B0F19",
+  "theme_color": "#00D2FF",
+  "lang": "fr",
+  "dir": "ltr",
+  "scope": "/",
+  "categories": ["portfolio", "developer", "cybersecurity"],
+  "keywords": [
+    "Aurras Charnel",
+    "KOUGBE ZOGAN",
+    "développeur web",
+    "cybersécurité",
+    "Bénin",
+    "INE",
+    "portfolio",
+    "full-stack",
+    "Django",
+    "React",
+    "Google Cybersecurity"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "M.jpeg",
+      "sizes": "400x400",
+      "type": "image/jpeg",
+      "label": "Aurras Charnel – Developer & Cybersecurity Expert"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://charnscode.dev/"
+    }
+  ],
+  "prefer_related_applications": false
+}
