@@ -1,11 +1,7 @@
-# =============================================
-# robots.txt — Aurras Charnel KOUGBE ZOGAN
-# ⚠️ Remplace l'URL ci-dessous par ton URL Vercel exacte
-# =============================================
 
 User-agent: *
 Allow: /
-Sitemap: https://portfolio-lovat-gamma-qxpve.vercel.app/sitemap.xml
+Sitemap: https://portfolio-charnokgbs-projects.vercel.app/sitemap.xml
 
 Disallow: /admin/
 Disallow: /.env
