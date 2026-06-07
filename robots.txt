@@ -1,7 +1,7 @@
 
 User-agent: *
 Allow: /
-Sitemap: https://portfolio-charnokgbs-projects.vercel.app/sitemap.xml
+Sitemap: https://portfolio-lovat-gamma-qxpv6d5nra.vercel.app/sitemap.xml
 
 Disallow: /admin/
 Disallow: /.env
