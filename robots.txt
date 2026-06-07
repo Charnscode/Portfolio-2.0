@@ -1,34 +1,19 @@
 # =============================================
 # robots.txt — Aurras Charnel KOUGBE ZOGAN
-# Portfolio: Developer & Cybersecurity Expert
+# ⚠️ Remplace l'URL ci-dessous par ton URL Vercel exacte
 # =============================================
 
 User-agent: *
 Allow: /
+Sitemap: https://portfolio-lovat-gamma-qxpve.vercel.app/sitemap.xml
 
-# Sitemap reference
-Sitemap: https://charnscode.dev/sitemap.xml
-
-# Disallow admin/private paths (if added later)
 Disallow: /admin/
-Disallow: /private/
 Disallow: /.env
-Disallow: /config/
 
-# Allow all major search engine bots explicitly
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
 Allow: /
 
 User-agent: facebookexternalhit
@@ -39,6 +24,3 @@ Allow: /
 
 User-agent: LinkedInBot
 Allow: /
-
-# Crawl delay (optional, helps server stability)
-Crawl-delay: 1
